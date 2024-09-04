@@ -1,0 +1,871 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Traffic Monitoring System</title>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2ecc71;
+      --background-color: #ecf0f1;
+      --text-color: #34495e;
+      --road-color: #1a2530;
+      --grass-color: #2ecc71;
+      --light-red: #e74c3c;
+      --light-yellow: #f1c40f;
+      --light-green: #2ecc71;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-item {
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .nav-text {
+      font-size: 1.2rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .login-btn {
+      background-color: transparent;
+      color: var(--primary-color);
+    }
+
+    .signup-btn {
+      background-color: var(--primary-color);
+      color: #fff;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      display: flex;
+      padding: 2rem;
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .left-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-text {
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+
+    .hero-description {
+      font-size: 1.2rem;
+      color: var(--text-color);
+    }
+
+    .hero-image {
+      width: 8vw;
+      height: 4vh;
+      font-size: 1.3rem;
+      max-width: 500px;
+      background-color: #d1eaf9;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .right-column {
+      flex: 1;
+    }
+
+    .traffic-simulation {
+      background-color: var(--grass-color);
+      border-radius: 20px;
+      padding: 1rem;
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .road {
+      position: absolute;
+      background-color: var(--road-color);
+    }
+
+    .road-horizontal {
+      width: 100%;
+      height: 120px;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+
+    .road-vertical {
+      width: 120px;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .traffic-light {
+      width: 30px;
+      height: 90px;
+      background-color: #333;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      padding: 5px 0;
+      border-radius: 15px;
+      z-index: 10;
+    }
+
+    .light {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      opacity: 0.3;
+      transition: opacity 0.3s ease;
+    }
+
+    .light.red { background-color: var(--light-red); }
+    .light.yellow { background-color: var(--light-yellow); }
+    .light.green { background-color: var(--light-green); }
+
+    .light.active { opacity: 1; }
+
+    .vehicle {
+      position: absolute;
+      width: 60px;
+      height: 30px;
+      background-color: var(--primary-color);
+      transition: all 0.5s linear;
+      z-index: 5;
+    }
+
+    .zebra-crossing {
+      position: absolute;
+      background-color: #fff;
+      display: flex;
+      justify-content: space-between;
+      z-index: 2;
+    }
+
+    .zebra-crossing-horizontal {
+      width:50px;
+      height: 120px;
+      flex-direction: column;
+    }
+
+    .zebra-crossing-vertical {
+      width: 120px;
+      height: 50px;
+      flex-direction: row;
+    }
+
+    .zebra-stripe {
+      background-color: var(--road-color);
+      flex: 1;
+      margin: 3px;
+    }
+
+    .lane-divider {
+      position: absolute;
+      background-color: #fff;
+      z-index: 3;
+    }
+
+    .lane-divider-horizontal1 {
+      width: 30%;
+      height: 3px;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+    .lane-divider-horizontal2 {
+      width: 30%;
+      height: 3px;
+      top: 50%;
+      left: 70%;
+      transform: translateY(-50%);
+    }
+
+    .lane-divider-vertical1 {
+      width: 3px;
+      height: 30%;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+    .lane-divider-vertical2 {
+      width: 3px;
+      height: 30%;
+      left: 50%;
+      top: 70%;
+      transform: translateX(-50%);
+    }
+
+    @media (max-width: 1200px) {
+      .main-content {
+        flex-direction: column;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .traffic-simulation {
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <nav class="nav-container">
+      <img src="sihlogo.png" alt="Traffic monitoring system illustration" style="height: 100%;width: 5vw;" class="">
+      <div class="nav-menu">
+        <div class="nav-item">
+          <span class="nav-text">Upload/Live</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-text">Software</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-text">Api</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-text">About</span>
+        </div>
+      </div>
+      <div class="auth-buttons">
+        <button class="btn login-btn">Login</button>
+        <button class="btn signup-btn">Sign up</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="left-column">
+      <div class="hero-text">
+        <h1 class="hero-title">Smart - Traffic Monitoring System</h1>
+        <p class="hero-description">"Navigate Smarter: Revolutionizing Traffic Flow with Real-Time Management and Predictive Solutions for a Safer, Faster Commute."</p>
+      </div>
+      <button class="hero-image">Start</button>
+    </div>
+
+    <div class="right-column">
+      <div class="traffic-simulation">
+        <div class="road road-horizontal"></div>
+        <div class="road road-vertical"></div>
+        
+        <div class="traffic-light" style="top: 10px; left: 10px;">
+          <div class="light red"></div>
+          <div class="light yellow"></div>
+          <div class="light green"></div>
+        </div>
+        
+        <div class="traffic-light" style="top: 10px; right: 10px;">
+          <div class="light red"></div>
+          <div class="light yellow"></div>
+          <div class="light green"></div>
+        </div>
+        
+        <div class="traffic-light" style="bottom: 10px; left: 10px;">
+          <div class="light red"></div>
+          <div class="light yellow"></div>
+          <div class="light green"></div>
+        </div>
+        
+        <div class="traffic-light" style="bottom: 10px; right: 10px;">
+          <div class="light red"></div>
+          <div class="light yellow"></div>
+          <div class="light green"></div>
+        </div>
+
+        <div class="zebra-crossing zebra-crossing-horizontal" style="top: calc(50% - 60px); left: calc(50% - 120px);">
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+        </div>
+
+        <div class="zebra-crossing zebra-crossing-horizontal" style="top: calc(50% - 60px); left: calc(50% - -70px);">
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+        </div>
+
+        <div class="zebra-crossing zebra-crossing-vertical" style="top: calc(50% - -70px); left: calc(50% - 60px);">
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+        </div>
+
+        <div class="zebra-crossing zebra-crossing-vertical" style="top: calc(50% - 120px); left: calc(50% - 60px);">
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+          <div class="zebra-stripe"></div>
+        </div>
+
+        <div class="lane-divider lane-divider-horizontal1"></div>
+        <div class="lane-divider lane-divider-horizontal2"></div>
+        <div class="lane-divider lane-divider-vertical1"></div>
+        <div class="lane-divider lane-divider-vertical2"></div>
+
+        <div class="vehicle" id="vehicle1"></div>
+        <div class="vehicle" id="vehicle2"></div>
+        <div class="vehicle" id="vehicle3"></div>
+        <div class="vehicle" id="vehicle4"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function setTrafficLight(lightElement, color) {
+      lightElement.querySelectorAll('.light').forEach(light => light.classList.remove('active'));
+      lightElement.querySelector(`.${color}`).classList.add('active');
+    }
+
+    function cycleTrafficLights() {
+      const lights = document.querySelectorAll('.traffic-light');
+      const colors = ['red', 'green', 'yellow'];
+      let currentIndex = 0;
+
+      setInterval(() => {
+        lights.forEach(light => setTrafficLight(light, colors[currentIndex]));
+        currentIndex = (currentIndex + 1) % colors.length;
+      }, 5000);
+    }
+
+    function moveVehicle(vehicleId, startX, startY, endX, endY, duration) {
+      const vehicle = document.getElementById(vehicleId);
+      vehicle.style.left = `${startX}px`;
+      vehicle.style.top = `${startY}px`;
+      
+      setTimeout(() => {
+        vehicle.style.left = `${endX}px`;
+        vehicle.style.top = `${endY}px`;
+      }, 100);
+
+      setTimeout(() => {
+        moveVehicle(vehicleId, startX, startY, endX, endY, duration);
+      }, duration);
+    }
+
+    cycleTrafficLights();
+    moveVehicle('vehicle1', -60, 270, 660, 270, 10000);
+    moveVehicle('vehicle2', 270, -30, 270, 630, 10000);
+    moveVehicle('vehicle3', 660, 330, -60, 330, 10000);
+    moveVehicle('vehicle4', 330, 630, 330, -30, 10000);
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Traffic Monitoring System</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --road-color: #1a2530;
+            --grass-color: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            cursor: pointer;
+        }
+
+        .nav-text {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+        }
+
+        .signup-btn {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .main-content {
+            padding-top: 10px;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .section-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-text {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .section-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+
+        .traffic-simulation {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #trafficCanvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .section-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 2rem 0;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            flex: 1;
+            margin-bottom: 1rem;
+            min-width: 200px;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style-type: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ecf0f1;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            color: #bdc3c7;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #ecf0f1;
+        }
+
+        @media (max-width: 1024px) {
+            .section-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .section-text, .section-image {
+                max-width: 100%;
+                margin-bottom: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <img src="sihlogo.png" alt="Logo" style="height: 50px; width: 50px;">
+            <div class="nav-menu">
+                <div class="nav-item"><span class="nav-text">Upload/Live</span></div>
+                <div class="nav-item"><span class="nav-text">Software</span></div>
+                <div class="nav-item"><span class="nav-text">API</span></div>
+                <div class="nav-item"><span class="nav-text">About</span></div>
+            </div>
+            <div class="auth-buttons">
+                <button class="btn login-btn">Login</button>
+                <button class="btn signup-btn">Sign up</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="section" id="home">
+            <div class="section-content">
+                <div class="section-text">
+                    <h1 class="hero-title">Smart - Traffic Monitoring System</h1>
+                    <p class="hero-description">"Navigate Smarter: Revolutionizing Traffic Flow with Real-Time Management and Predictive Solutions for a Safer, Faster Commute."</p>
+                    <button class="btn signup-btn">Get Started</button>
+                </div>
+                <div class="section-image">
+                    <div class="traffic-simulation">
+                        <canvas id="trafficCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="realtime-monitoring">
+            <div class="section-content">
+                <div class="section-text">
+                    <h2 class="hero-title">Real-Time Monitoring</h2>
+                    <p class="hero-description">Our advanced AI-powered cameras provide real-time traffic data, allowing for immediate response to changing road conditions. This system helps reduce congestion and improves overall traffic flow.</p>
+                </div>
+                <div class="section-image">
+                    <img src="monitor.png" alt="Real-Time Monitoring">
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="predictive-analytics">
+            <div class="section-content">
+                <div class="section-image">
+                    <img src="pre.jpg" style="height: 100%;width: 25vw;" alt="Predictive Analytics">
+                </div>
+                <div class="section-text">
+                    <h2 class="hero-title">Predictive Analytics</h2>
+                    <p class="hero-description">Utilizing machine learning algorithms, our system can predict traffic patterns and potential congestion points. This allows city planners and traffic managers to take proactive measures to prevent traffic jams before they occur.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="smart-traffic-lights">
+            <div class="section-content">
+                <div class="section-text">
+                    <h2 class="hero-title">Smart Traffic Lights</h2>
+                    <p class="hero-description">Our intelligent traffic light system adapts in real-time to traffic conditions. By optimizing signal timing based on current traffic flow, we can significantly reduce wait times and improve overall traffic efficiency.</p>
+                </div>
+                <div class="section-image">
+                    <img src="light.jpg" style="height: 100%;width: 25vw;" alt="Smart Traffic Lights">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">About Us</h3>
+                <p>Revolutionizing traffic management with cutting-edge AI technology.</p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#realtime-monitoring">Real-Time Monitoring</a></li>
+                    <li><a href="#predictive-analytics">Predictive Analytics</a></li>
+                    <li><a href="#smart-traffic-lights">Smart Traffic Lights</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Contact Us</h3>
+                <p>neelbad, Bhopal - mp </p>
+                <p>smart@traffic.com</p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">&#xf09a;</a>
+                    <a href="#" class="social-icon">&#xf099;</a>
+                    <a href="#" class="social-icon">&#xf16d;</a>
+                    <a href="#" class="social-icon">&#xf0e1;</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // The JavaScript code remains unchanged
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('trafficCanvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 600;
+            canvas.height = 400;
+
+            const roadColor = '#1a2530';
+            const grassColor = '#2ecc71';
+
+            function drawBackground() {
+                ctx.fillStyle = grassColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            function drawRoads() {
+                ctx.fillStyle = roadColor;
+                ctx.fillRect(0, 150, canvas.width, 100);
+                ctx.fillRect(250, 0, 100, canvas.height);
+            }
+
+            function drawLaneMarkings() {
+                ctx.strokeStyle = 'white';
+                ctx.setLineDash([20, 20]);
+                ctx.beginPath();
+                ctx.moveTo(0, 200);
+                ctx.lineTo(canvas.width, 200);
+                ctx.moveTo(300, 0);
+                ctx.lineTo(300, canvas.height);
+                ctx.stroke();
+            }
+
+            function drawTrafficLight(x, y, color) {
+                ctx.fillStyle = '#333';
+                ctx.fillRect(x, y, 20, 60);
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(x + 10, y + 30, 8, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            function drawVehicle(x, y, color) {
+                ctx.fillStyle = color;
+                ctx.fillRect(x, y, 40, 20);
+            }
+
+            let carX = 0;
+            let truckY = 0;
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                drawBackground();
+                drawRoads();
+                drawLaneMarkings();
+
+                drawTrafficLight(230, 90, 'red');
+                drawTrafficLight(350, 90, 'green');
+                drawTrafficLight(230, 250, 'green');
+                drawTrafficLight(350, 250, 'red');
+
+                drawVehicle(carX, 160, 'blue');
+                drawVehicle(270, truckY, 'red');
+
+                carX = (carX + 2) % canvas.width;
+                truckY = (truckY + 1) % canvas.height;
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
