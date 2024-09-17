@@ -465,7 +465,7 @@
         }
 
         .header {
-            background-color: #fff;
+<!--            background-color: #fff;-->
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 1rem 2rem;
             position: fixed;
@@ -475,33 +475,135 @@
             z-index: 1000;
         }
 
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.nav-container:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.nav-menu {
+list-style-type: none;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+}
+.nav-menu li {
+            display: inline-block;
         }
-
-        .nav-menu {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-item {
-            cursor: pointer;
-        }
-
-        .nav-text {
-            font-size: 1rem;
+        .nav-menu li a {
+            text-decoration: none;
+            color: #333;
             font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
         }
+.nav-item {
+  position: relative;
+  cursor: pointer;
+}
 
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
-        }
+.nav-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
 
+.nav-text:hover {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
+
+.nav-text::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #007bff;
+  transition: all 0.3s ease;
+}
+
+.nav-text:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #007bff;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-btn {
+text-decoration:none;
+  background-color: transparent;
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+.login-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.signup-btn {
+text-decoration:none;
+  background-color: #007bff;
+  color: white;
+}
+
+.signup-btn:hover {
+  background-color: #0056b3;
+}
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .nav-menu {
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .auth-buttons {
+    margin-top: 1rem;
+  }
+}
         .btn {
             padding: 0.5rem 1rem;
             border: none;
@@ -687,10 +789,9 @@
         <nav class="nav-container">
             <img src="sihlogo.png" alt="Logo" style="height: 50px; width: 50px;">
             <div class="nav-menu">
-                <div class="nav-item"><span class="nav-text">Upload/Live</span></div>
-                <div class="nav-item"><span class="nav-text">Software</span></div>
-                <div class="nav-item"><span class="nav-text">API</span></div>
+                <div class="nav-item"><span class="nav-text">Home</span></div>
                 <div class="nav-item"><span class="nav-text">About</span></div>
+                <div class="nav-item"><span class="nav-text">Contact</span></div>
             </div>
             <div class="auth-buttons">
                 <button class="btn login-btn" onclick="window.location.href='login.html';">Login</button>
@@ -705,11 +806,12 @@
                 <div class="section-text">
                     <h1 class="hero-title">Smart - Traffic Monitoring System</h1>
                     <p class="hero-description">"Navigate Smarter: Revolutionizing Traffic Flow with Real-Time Management and Predictive Solutions for a Safer, Faster Commute."</p>
-                    <button class="btn signup-btn">Get Started</button>
+                    <button class="btn signup-btn">User</button>
+                    <button class="btn signup-btn">Administrator</button>
                 </div>
                 <div class="section-image">
                     <div class="traffic-simulation">
-                        <canvas id="trafficCanvas"></canvas>
+                        <img src="Screenshot 2024-09-17 112553.png" style="height: 100%;width: 50vw;" alt="Smart Traffic Lights">
                     </div>
                 </div>
             </div>
@@ -731,7 +833,7 @@
                     <p class="hero-description">Our advanced AI-powered cameras provide real-time traffic data, allowing for immediate response to changing road conditions. This system helps reduce congestion and improves overall traffic flow.</p>
                 </div>
                 <div class="section-image">
-                    <img src="monitor.png" alt="Real-Time Monitoring">
+                    <img src="WhatsApp Image 2024-09-17 at 10.53.05_f11ef268.jpg" style="height: 100%;width: 35vw;" alt="Real-Time Monitoring">
                 </div>
             </div>
         </section>
@@ -751,11 +853,11 @@
         <section class="section" id="smart-traffic-lights">
             <div class="section-content">
                 <div class="section-text">
-                    <h2 class="hero-title">Smart Traffic Lights</h2>
-                    <p class="hero-description">Our intelligent traffic light system adapts in real-time to traffic conditions. By optimizing signal timing based on current traffic flow, we can significantly reduce wait times and improve overall traffic efficiency.</p>
+                    <h2 class="hero-title">3D Views</h2>
+                    <p class="hero-description">LiDAR detects objects by emitting rapid laser pulses and using sensors to measure the time it takes for those pulses to bounce back after hitting surfaces.</p>
                 </div>
                 <div class="section-image">
-                    <img src="light.jpg" style="height: 100%;width: 25vw;" alt="Smart Traffic Lights">
+                    <img src="dview.jpeg" style="height: 100%;width: 35vw;" alt="Smart Traffic Lights">
                 </div>
             </div>
         </section>
@@ -781,102 +883,12 @@
                 <p>neelbad, Bhopal - mp </p>
                 <p>smart@traffic.com</p>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#" class="social-icon">&#xf09a;</a>
-                    <a href="#" class="social-icon">&#xf099;</a>
-                    <a href="#" class="social-icon">&#xf16d;</a>
-                    <a href="#" class="social-icon">&#xf0e1;</a>
-                </div>
-            </div>
+            
         </div>
     </footer>
 
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const canvas = document.getElementById('trafficCanvas');
-    const ctx = canvas.getContext('2d');
 
-    canvas.width = 600;
-    canvas.height = 400;
-
-    const roadColor = '#1a2530';
-    const grassColor = '#2ecc71';
-
-    // Load car images
-    const carImage = new Image();
-    carImage.src = 'car.png'; // Replace with the path to your car image
-    const truckImage = new Image();
-    truckImage.src = 'car2.png'; // Replace with the path to your truck image
-
-    function drawBackground() {
-        ctx.fillStyle = grassColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function drawRoads() {
-        ctx.fillStyle = roadColor;
-        ctx.fillRect(0, 150, canvas.width, 100);
-        ctx.fillRect(250, 0, 100, canvas.height);
-    }
-
-    function drawLaneMarkings() {
-        ctx.strokeStyle = 'white';
-        ctx.setLineDash([20, 20]);
-        ctx.beginPath();
-        ctx.moveTo(0, 200);
-        ctx.lineTo(canvas.width, 200);
-        ctx.moveTo(300, 0);
-        ctx.lineTo(300, canvas.height);
-        ctx.stroke();
-    }
-
-    function drawTrafficLight(x, y, color) {
-        ctx.fillStyle = '#333';
-        ctx.fillRect(x, y, 20, 60);
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.arc(x + 10, y + 30, 8, 0, Math.PI * 2);
-        ctx.fill();
-    }
-
-    function drawVehicle(x, y, image) {
-        ctx.drawImage(image, x, y, 40, 20); // Adjust the width and height to fit your image
-    }
-
-    let carX = 0;
-    let truckY = 0;
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        drawBackground();
-        drawRoads();
-        drawLaneMarkings();
-
-        drawTrafficLight(230, 90, 'red');
-        drawTrafficLight(350, 90, 'green');
-        drawTrafficLight(230, 250, 'green');
-        drawTrafficLight(350, 250, 'red');
-
-        // Draw vehicles using images
-        drawVehicle(carX, 160, carImage);
-        drawVehicle(270, truckY, truckImage);
-
-        carX = (carX + 2) % canvas.width;
-        truckY = (truckY + 1) % canvas.height;
-
-        requestAnimationFrame(animate);
-    }
-
-    // Start the animation once the images are loaded
-    carImage.onload = () => {
-        truckImage.onload = () => {
-            animate();
-        };
-    };
-});
     </script>
 </body>
 </html>
