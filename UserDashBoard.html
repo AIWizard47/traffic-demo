@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1f2e;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #2a3142;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .card {
+            background-color: #2a3142;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .traffic-condition {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .warning {
+            color: #ffd700;
+        }
+        .incident {
+            background-color: #3a4152;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .chart {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background: conic-gradient(
+                #3498db 0deg 234deg,
+                #2ecc71 234deg 270deg,
+                #e74c3c 270deg 324deg,
+                #f39c12 324deg 360deg
+            );
+            border-radius: 50%;
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+        }
+        .paths {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .path-card {
+            background-color: #3a4152;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .time {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="btn">Home</button>
+            <button class="btn">Traffic Dashboard</button>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div class="traffic-condition">
+                    Traffic Condition <span class="warning">⚠</span>
+                </div>
+                <h1>Heavy</h1>
+                <h3>Traffic Incidents</h3>
+                <div class="incident">
+                    <p>⚠ Accident</p>
+                    <p>Main St & 5th Ave</p>
+                    <p>10:30 AM</p>
+                </div>
+                <div class="incident">
+                    <p>⚠ Road Work</p>
+                    <p>Broadway & 7th St</p>
+                    <p>All Day</p>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Vehicle Distribution</h2>
+                <div class="chart"></div>
+                <div class="legend">
+                    <div class="color-box" style="background-color: #3498db;"></div>
+                    <div>Cars 65.0%</div>
+                    <div class="color-box" style="background-color: #2ecc71;"></div>
+                    <div>Buses 10.0%</div>
+                    <div class="color-box" style="background-color: #e74c3c;"></div>
+                    <div>Trucks 15.0%</div>
+                    <div class="color-box" style="background-color: #f39c12;"></div>
+                    <div>Motorcycles 10.0%</div>
+                </div>
+            </div>
+        </div>
+        <h2>Suggested Paths & Predicted Times</h2>
+        <div class="paths">
+            <div class="path-card">
+                <p>🚩 Downtown to Airport</p>
+                <p>Distance: 22 km</p>
+                <p class="time">45 min</p>
+            </div>
+            <div class="path-card">
+                <p>🚩 Suburb to City Center</p>
+                <p>Distance: 15 km</p>
+                <p class="time">30 min</p>
+            </div>
+            <div class="path-card">
+                <p>🚩 Industrial Park to Shopping Mall</p>
+                <p>Distance: 10 km</p>
+                <p class="time">20 min</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
