@@ -88,7 +88,9 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
+            opacity: 0.3;
         }
+        .light.active { opacity: 1; }
         .red { background-color: #ff5c5c; }
         .yellow { background-color: #ffb74d; }
         .green { background-color: #4caf50; }
@@ -119,7 +121,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <a class="home-btn" href="index.html">Home</a>
+            <a class="home-btn" href="index.html" >Home</a>
             <h1>Traffic Dashboard</h1>
         </div>
         <div class="grid">
@@ -128,32 +130,32 @@
                 <div class="vehicle-count">
                     <div class="count-box car">
                         <span>Car</span>
-                        <span>15</span>
+                        <span id="carCount">0</span>
                     </div>
                     <div class="count-box bus">
                         <span>Bus</span>
-                        <span>15</span>
+                        <span id="busCount">0</span>
                     </div>
                     <div class="count-box truck">
                         <span>Truck</span>
-                        <span>15</span>
+                        <span id="truckCount">0</span>
                     </div>
                     <div class="count-box bike">
                         <span>Bike</span>
-                        <span>30</span>
+                        <span id="bikeCount">0</span>
                     </div>
                 </div>
                 <div class="total-count">
                     <div class="total-count-box">
-                        <div>1086</div>
+                        <div id="totalCars">0</div>
                         <div>Cars</div>
                     </div>
                     <div class="total-count-box">
-                        <div>441</div>
+                        <div id="totalTrucks">0</div>
                         <div>Trucks</div>
                     </div>
                     <div class="total-count-box">
-                        <div>256</div>
+                        <div id="totalMotorcycles">0</div>
                         <div>Motorcycles</div>
                     </div>
                 </div>
@@ -168,7 +170,7 @@
                             <div class="light yellow"></div>
                             <div class="light red"></div>
                         </div>
-                        <div>30s</div>
+                        <div id="road1Timer">30s</div>
                     </div>
                     <div class="light-box">
                         <div>Road 2</div>
@@ -177,7 +179,7 @@
                             <div class="light yellow"></div>
                             <div class="light red"></div>
                         </div>
-                        <div>0s</div>
+                        <div id="road2Timer">0s</div>
                     </div>
                     <div class="light-box">
                         <div>Road 3</div>
@@ -186,7 +188,7 @@
                             <div class="light yellow"></div>
                             <div class="light red"></div>
                         </div>
-                        <div>0s</div>
+                        <div id="road3Timer">0s</div>
                     </div>
                     <div class="light-box">
                         <div>Road 4</div>
@@ -195,7 +197,7 @@
                             <div class="light yellow"></div>
                             <div class="light red"></div>
                         </div>
-                        <div>0s</div>
+                        <div id="road4Timer">0s</div>
                     </div>
                 </div>
             </div>
@@ -211,33 +213,77 @@
                             <th>Total</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>00:00</td>
-                            <td>60</td>
-                            <td>3</td>
-                            <td>10</td>
-                            <td>73</td>
-                        </tr>
-                        <tr>
-                            <td>01:00</td>
-                            <td>28</td>
-                            <td>4</td>
-                            <td>12</td>
-                            <td>44</td>
-                        </tr>
-                        <tr>
-                            <td>02:00</td>
-                            <td>32</td>
-                            <td>5</td>
-                            <td>7</td>
-                            <td>44</td>
-                        </tr>
+                    <tbody id="trafficTable">
+                        <!-- Table rows will be dynamically added here -->
                     </tbody>
                 </table>
                 <div class="graph"></div>
             </div>
         </div>
     </div>
+
+    <script>
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function updateVehicleCounts() {
+            document.getElementById('carCount').textContent = getRandomInt(10, 50);
+            document.getElementById('busCount').textContent = getRandomInt(5, 20);
+            document.getElementById('truckCount').textContent = getRandomInt(5, 30);
+            document.getElementById('bikeCount').textContent = getRandomInt(20, 100);
+
+            document.getElementById('totalCars').textContent = getRandomInt(500, 2000);
+            document.getElementById('totalTrucks').textContent = getRandomInt(200, 1000);
+            document.getElementById('totalMotorcycles').textContent = getRandomInt(100, 500);
+        }
+
+        function updateTrafficLights() {
+            const roads = [1, 2, 3, 4];
+            const colors = ['green', 'yellow', 'red'];
+            
+            roads.forEach(road => {
+                const lights = document.querySelectorAll(`.light-box:nth-child(${road}) .light`);
+                const activeColor = colors[getRandomInt(0, 2)];
+                lights.forEach(light => light.classList.remove('active'));
+                document.querySelector(`.light-box:nth-child(${road}) .${activeColor}`).classList.add('active');
+                
+                const timer = document.getElementById(`road${road}Timer`);
+                timer.textContent = `${getRandomInt(0, 30)}s`;
+            });
+        }
+
+        function updateTrafficTable() {
+            const table = document.getElementById('trafficTable');
+            table.innerHTML = ''; // Clear existing rows
+            
+            for (let i = 0; i < 3; i++) {
+                const row = table.insertRow();
+                const time = new Date(2024, 0, 1, i, 0).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const cars = getRandomInt(20, 100);
+                const trucks = getRandomInt(5, 30);
+                const motorcycles = getRandomInt(10, 50);
+                const total = cars + trucks + motorcycles;
+                
+                row.insertCell(0).textContent = time;
+                row.insertCell(1).textContent = cars;
+                row.insertCell(2).textContent = trucks;
+                row.insertCell(3).textContent = motorcycles;
+                row.insertCell(4).textContent = total;
+            }
+        }
+
+        function updateDashboard() {
+            updateVehicleCounts();
+            updateTrafficLights();
+            updateTrafficTable();
+        }
+
+        // Initial update
+        updateDashboard();
+
+        // Update every 5 seconds
+        setInterval(updateDashboard, 5000);
+    </script>
 </body>
 </html>
